@@ -1,0 +1,49 @@
+<!-- Professional Quick Actions Panel -->
+<div class="quick-actions-panel" [style.max-height]="maxHeight">
+  <!-- Header -->
+  <div class="panel-header">
+    <div class="header-left">
+      <mat-icon class="header-icon">flash</mat-icon>
+      <span class="header-title">Acciones Rápidas</span>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button matTooltip="Cerrar panel" (click)="onClosePanel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Quick Actions Grid -->
+  <div class="actions-content">
+    <div class="actions-grid">
+      <div class="action-item"
+           *ngFor="let action of quickActions"
+           [style.border-color]="action.color"
+           (click)="onActionClick(action, $event)">
+
+        <div class="action-icon" [style.background-color]="action.color">
+          <mat-icon>{{ action.icon }}</mat-icon>
+        </div>
+
+        <div class="action-content">
+          <h3 class="action-title">{{ action.title }}</h3>
+          <p class="action-description">{{ action.description }}</p>
+        </div>
+
+        <button mat-icon-button class="action-arrow" [style.color]="action.color">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="panel-footer">
+    <div class="footer-info">
+      <mat-icon>info</mat-icon>
+      <span>Última acción ejecutada: <strong>{{ lastAction || 'Ninguna' }}</strong></span>
+    </div>
+  </div>
+</div>

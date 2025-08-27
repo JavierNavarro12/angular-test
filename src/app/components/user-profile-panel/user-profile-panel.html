@@ -1,0 +1,136 @@
+<!-- Professional User Profile Panel -->
+<div class="user-profile-panel" [style.max-height]="maxHeight">
+  <!-- Header -->
+  <div class="panel-header">
+    <div class="header-left">
+      <mat-icon class="header-icon">person</mat-icon>
+      <span class="header-title">Perfil de Usuario</span>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button matTooltip="Editar perfil" (click)="onEditProfile()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Cerrar panel" (click)="onClosePanel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- User Info Section -->
+  <div class="user-info-section">
+    <div class="user-avatar">
+      <div class="avatar-circle" [style.background-color]="getRoleColor(user.role)">
+        {{ getInitials(user.name) }}
+      </div>
+    </div>
+
+    <div class="user-details">
+      <h2 class="user-name">{{ user.name }}</h2>
+      <p class="user-email">{{ user.email }}</p>
+      <mat-chip [style.background-color]="getRoleColor(user.role)" class="role-chip">
+        {{ user.role }}
+      </mat-chip>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- User Stats -->
+  <div class="stats-section">
+    <h3>Estadísticas</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <mat-icon>login</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ user.stats.loginCount }}</span>
+          <span class="stat-label">Inicios de Sesión</span>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <mat-icon>touch_app</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ user.stats.actionsPerformed }}</span>
+          <span class="stat-label">Acciones Realizadas</span>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <mat-icon>description</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ user.stats.reportsGenerated }}</span>
+          <span class="stat-label">Reportes Generados</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Account Info -->
+  <div class="account-info-section">
+    <h3>Información de Cuenta</h3>
+    <div class="account-details">
+      <div class="detail-item">
+        <mat-icon>event</mat-icon>
+        <div class="detail-content">
+          <span class="detail-label">Miembro desde</span>
+          <span class="detail-value">{{ formatDate(user.joinDate) }}</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <mat-icon>schedule</mat-icon>
+        <div class="detail-content">
+          <span class="detail-label">Último acceso</span>
+          <span class="detail-value">{{ formatDate(user.lastLogin) }} a las {{ formatTime(user.lastLogin) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Preferences Preview -->
+  <div class="preferences-section">
+    <h3>Preferencias</h3>
+    <div class="preferences-grid">
+      <div class="preference-item">
+        <mat-icon>palette</mat-icon>
+        <span>Tema: {{ user.preferences.theme === 'light' ? 'Claro' : 'Oscuro' }}</span>
+      </div>
+
+      <div class="preference-item">
+        <mat-icon>language</mat-icon>
+        <span>Idioma: {{ user.preferences.language === 'es' ? 'Español' : 'English' }}</span>
+      </div>
+
+      <div class="preference-item">
+        <mat-icon>notifications</mat-icon>
+        <span>Notificaciones: {{ user.preferences.notifications ? 'Activadas' : 'Desactivadas' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Actions -->
+  <div class="actions-section">
+    <button mat-stroked-button color="primary" class="action-button" (click)="onEditProfile()">
+      <mat-icon>edit</mat-icon>
+      Editar Perfil
+    </button>
+
+    <button mat-stroked-button color="accent" class="action-button">
+      <mat-icon>settings</mat-icon>
+      Configuración Avanzada
+    </button>
+
+    <button mat-flat-button color="warn" class="logout-button" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar Sesión
+    </button>
+  </div>
+</div>

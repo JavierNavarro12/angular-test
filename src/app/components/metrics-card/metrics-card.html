@@ -1,16 +1,37 @@
-<mat-card class="metric-card">
-  <mat-card-content>
-    <div class="metric-header">
-      <span class="metric-label">{{ metric.label }}</span>
-      <mat-icon [class]="getTrendColor()">{{ getTrendIcon() }}</mat-icon>
+<!-- Metric Card Content -->
+<div class="metric-card">
+  <div class="metric-header">
+    <div class="metric-icon-container">
+      <mat-icon class="metric-main-icon">{{ getMetricIcon(metric.label) }}</mat-icon>
     </div>
+    <div class="metric-header-content">
+      <span class="metric-label">{{ metric.label }}</span>
+      <mat-icon class="trend-icon" [class]="getTrendColor()">{{ getTrendIcon() }}</mat-icon>
+    </div>
+  </div>
 
+  <div class="metric-value-section">
     <div class="metric-value">
       {{ formatValue(metric.value, metric.label) }}
     </div>
-
     <div class="metric-change" [class]="getTrendColor()">
-      {{ formatChange(metric.change) }} vs ayer
+      <span class="change-value">{{ formatChange(metric.change) }}</span>
+      <span class="change-label">vs ayer</span>
     </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+
+  <div class="metric-footer">
+    <div class="metric-sparkline">
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(0)"></div>
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(1)"></div>
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(2)"></div>
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(3)"></div>
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(4)"></div>
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(5)"></div>
+      <div class="sparkline-bar" [style.height.%]="getSparklineHeight(6)"></div>
+    </div>
+    <button mat-icon-button class="metric-action-btn" matTooltip="Ver detalles">
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </div>
+</div>

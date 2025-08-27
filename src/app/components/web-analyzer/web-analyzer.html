@@ -1,0 +1,330 @@
+<!-- Web Analyzer Tool -->
+<div class="web-analyzer-container">
+
+  <!-- Header Section -->
+  <div class="analyzer-header">
+    <div class="header-content">
+      <mat-icon class="header-icon">analytics</mat-icon>
+      <div class="header-text">
+        <h1 class="main-title">WebAnalyzer Pro</h1>
+        <p class="subtitle">Herramienta completa para análisis de páginas web</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="summary-section">
+    <div class="summary-card">
+      <div class="summary-header">
+        <mat-icon class="summary-icon">info</mat-icon>
+        <h2>¿Qué hace esta herramienta?</h2>
+      </div>
+      <p class="summary-description">
+        Pon el enlace de tu página web y te diremos todo lo que necesitas saber sobre su rendimiento,
+        optimización SEO, seguridad, accesibilidad y mucho más. Obtén un análisis completo en segundos.
+      </p>
+
+      <div class="features-grid">
+        <div *ngFor="let feature of features" class="feature-item">
+          <mat-icon class="feature-icon">{{ feature.icon }}</mat-icon>
+          <div class="feature-content">
+            <h4>{{ feature.title }}</h4>
+            <p>{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- URL Input Section -->
+  <div class="input-section">
+    <div class="input-card">
+      <div class="input-header">
+        <mat-icon>link</mat-icon>
+        <h3>Ingresa la URL de tu sitio web</h3>
+      </div>
+
+      <div class="url-input-group">
+        <mat-form-field appearance="outline" class="url-field">
+          <mat-label>URL del sitio web</mat-label>
+          <input matInput
+                 [(ngModel)]="url"
+                 placeholder="https://www.ejemplo.com"
+                 (keyup.enter)="analyzeWebsite()">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button
+                color="primary"
+                class="analyze-button"
+                (click)="analyzeWebsite()"
+                [disabled]="!url.trim() || isAnalyzing">
+          <mat-icon *ngIf="!isAnalyzing">analytics</mat-icon>
+          <mat-spinner *ngIf="isAnalyzing" diameter="20" color="accent"></mat-spinner>
+          <span>{{ isAnalyzing ? 'Analizando...' : 'Analizar Sitio' }}</span>
+        </button>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="error-message">
+        <mat-icon>error</mat-icon>
+        <span>{{ error }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isAnalyzing && !analysisResult" class="loading-section">
+    <div class="loading-content">
+      <mat-spinner diameter="50" color="primary"></mat-spinner>
+      <h3>Analizando tu sitio web...</h3>
+      <p>Estamos recopilando información detallada sobre el rendimiento, SEO y seguridad de tu página.</p>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div *ngIf="analysisResult" class="results-section">
+    <div class="results-header">
+      <mat-icon class="results-icon">assessment</mat-icon>
+      <div class="results-info">
+        <h2>Resultados del Análisis</h2>
+        <p class="analyzed-url">{{ analysisResult.url }}</p>
+        <p class="analyzed-date">Análisis realizado el {{ analysisResult.analyzedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+      <button mat-stroked-button (click)="clearResults()" class="clear-button">
+        <mat-icon>refresh</mat-icon>
+        Nuevo Análisis
+      </button>
+    </div>
+
+    <!-- Basic Info Cards -->
+    <div class="basic-info-cards">
+      <mat-card class="info-card">
+        <mat-card-content>
+          <div class="card-icon">
+            <mat-icon>article</mat-icon>
+          </div>
+          <div class="card-content">
+            <h4>Información Básica</h4>
+            <div class="basic-details">
+              <p><strong>Título:</strong> {{ analysisResult.basicInfo.title }}</p>
+              <p><strong>Descripción:</strong> {{ analysisResult.basicInfo.description }}</p>
+              <p><strong>Estado HTTP:</strong> {{ analysisResult.basicInfo.statusCode }}</p>
+              <p><strong>Tamaño:</strong> {{ (analysisResult.basicInfo.contentLength / 1024).toFixed(2) }} KB</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card">
+        <mat-card-content>
+          <div class="card-icon">
+            <mat-icon>speed</mat-icon>
+          </div>
+          <div class="card-content">
+            <h4>Rendimiento General</h4>
+            <div class="performance-score">
+              <span class="score">{{ analysisResult.performance.pageSpeedScore }}/100</span>
+              <span class="label">{{ getPerformanceLabel(analysisResult.performance.pageSpeedScore) }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card">
+        <mat-card-content>
+          <div class="card-icon">
+            <mat-icon>security</mat-icon>
+          </div>
+          <div class="card-content">
+            <h4>Seguridad</h4>
+            <div class="security-status">
+              <mat-icon [style.color]="analysisResult.technical.security.ssl ? '#4caf50' : '#f44336'">
+                {{ analysisResult.technical.security.ssl ? 'lock' : 'lock_open' }}
+              </mat-icon>
+              <span>{{ analysisResult.technical.security.ssl ? 'HTTPS Seguro' : 'HTTP Inseguro' }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Detailed Tabs -->
+    <mat-tab-group class="detailed-tabs">
+      <mat-tab label="Rendimiento">
+        <div class="tab-content">
+          <div class="performance-section">
+            <h4>Core Web Vitals</h4>
+            <div class="core-web-vitals-grid">
+              <div class="vital-card" *ngIf="analysisResult">
+                <div class="vital-header">
+                  <mat-icon>largest_contentful_paint</mat-icon>
+                  <span>Largest Contentful Paint (LCP)</span>
+                </div>
+                <div class="vital-value">{{ formatCoreWebVitals(analysisResult.performance.coreWebVitals.lcp) }}</div>
+                <div class="vital-status"
+                     [class.good]="analysisResult.performance.coreWebVitals.lcp < 2.5"
+                     [class.needs-improvement]="analysisResult.performance.coreWebVitals.lcp >= 2.5 && analysisResult.performance.coreWebVitals.lcp < 4"
+                     [class.poor]="analysisResult.performance.coreWebVitals.lcp >= 4">
+                  {{ analysisResult.performance.coreWebVitals.lcp < 2.5 ? 'Bueno' :
+                     analysisResult.performance.coreWebVitals.lcp < 4 ? 'Mejorable' : 'Deficiente' }}
+                </div>
+              </div>
+
+              <div class="vital-card" *ngIf="analysisResult">
+                <div class="vital-header">
+                  <mat-icon>first_input</mat-icon>
+                  <span>First Input Delay (FID)</span>
+                </div>
+                <div class="vital-value">{{ formatCoreWebVitals(analysisResult.performance.coreWebVitals.fid, 'ms') }}</div>
+                <div class="vital-status"
+                     [class.good]="analysisResult.performance.coreWebVitals.fid < 100"
+                     [class.needs-improvement]="analysisResult.performance.coreWebVitals.fid >= 100 && analysisResult.performance.coreWebVitals.fid < 300"
+                     [class.poor]="analysisResult.performance.coreWebVitals.fid >= 300">
+                  {{ analysisResult.performance.coreWebVitals.fid < 100 ? 'Bueno' :
+                     analysisResult.performance.coreWebVitals.fid < 300 ? 'Mejorable' : 'Deficiente' }}
+                </div>
+              </div>
+
+              <div class="vital-card" *ngIf="analysisResult">
+                <div class="vital-header">
+                  <mat-icon>layout_shift</mat-icon>
+                  <span>Cumulative Layout Shift (CLS)</span>
+                </div>
+                <div class="vital-value">{{ analysisResult.performance.coreWebVitals.cls }}</div>
+                <div class="vital-status"
+                     [class.good]="analysisResult.performance.coreWebVitals.cls < 0.1"
+                     [class.needs-improvement]="analysisResult.performance.coreWebVitals.cls >= 0.1 && analysisResult.performance.coreWebVitals.cls < 0.25"
+                     [class.poor]="analysisResult.performance.coreWebVitals.cls >= 0.25">
+                  {{ analysisResult.performance.coreWebVitals.cls < 0.1 ? 'Bueno' :
+                     analysisResult.performance.coreWebVitals.cls < 0.25 ? 'Mejorable' : 'Deficiente' }}
+                </div>
+              </div>
+            </div>
+
+            <h4>Puntuaciones Lighthouse</h4>
+            <div class="lighthouse-scores">
+              <div class="score-circle-container">
+                <div class="score-circle" [style.background]="getScoreGradient(getPerformanceScore())">
+                  <span class="score-number">{{ getPerformanceScore() }}</span>
+                </div>
+                <span class="score-label">Performance</span>
+              </div>
+
+              <div class="score-circle-container">
+                <div class="score-circle" [style.background]="getScoreGradient(getAccessibilityScore())">
+                  <span class="score-number">{{ getAccessibilityScore() }}</span>
+                </div>
+                <span class="score-label">Accessibility</span>
+              </div>
+
+              <div class="score-circle-container">
+                <div class="score-circle" [style.background]="getScoreGradient(getBestPracticesScore())">
+                  <span class="score-number">{{ getBestPracticesScore() }}</span>
+                </div>
+                <span class="score-label">Best Practices</span>
+              </div>
+
+              <div class="score-circle-container">
+                <div class="score-circle" [style.background]="getScoreGradient(getSeoScore())">
+                  <span class="score-number">{{ getSeoScore() }}</span>
+                </div>
+                <span class="score-label">SEO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="SEO">
+        <div class="tab-content">
+          <div class="seo-section">
+            <h4>Meta Información</h4>
+            <div class="meta-info">
+              <p><strong>Título:</strong> {{ analysisResult.seo.metaTags.title || 'No encontrado' }}</p>
+              <p><strong>Descripción:</strong> {{ analysisResult.seo.metaTags.description || 'No encontrada' }}</p>
+              <p><strong>Palabras clave:</strong>
+                <span *ngIf="analysisResult.seo.metaTags.keywords.length === 0">Ninguna</span>
+                <mat-chip-listbox *ngIf="analysisResult.seo.metaTags.keywords.length > 0">
+                  <mat-chip *ngFor="let keyword of analysisResult.seo.metaTags.keywords">
+                    {{ keyword }}
+                  </mat-chip>
+                </mat-chip-listbox>
+              </p>
+            </div>
+
+            <h4>Estructura del Contenido</h4>
+            <div class="content-structure">
+              <div class="structure-item">
+                <mat-icon>looks_one</mat-icon>
+                <span>{{ analysisResult.seo.headings.h1 }} títulos H1</span>
+              </div>
+              <div class="structure-item">
+                <mat-icon>looks_two</mat-icon>
+                <span>{{ analysisResult.seo.headings.h2 }} títulos H2</span>
+              </div>
+              <div class="structure-item">
+                <mat-icon>looks_3</mat-icon>
+                <span>{{ analysisResult.seo.headings.h3 }} títulos H3</span>
+              </div>
+              <div class="structure-item">
+                <mat-icon>image</mat-icon>
+                <span>{{ analysisResult.seo.images.total }} imágenes ({{ analysisResult.seo.images.withAlt }} con alt)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Tecnologías">
+        <div class="tab-content">
+          <div class="tech-section">
+            <h4>Tecnologías Detectadas</h4>
+            <div class="technologies-list" *ngIf="analysisResult.technical.serverInfo.technology.length > 0; else noTech">
+              <mat-chip *ngFor="let tech of analysisResult.technical.serverInfo.technology"
+                       [ngClass]="getTechnologyColor(tech)">
+                {{ tech }}
+              </mat-chip>
+            </div>
+            <ng-template #noTech>
+              <p>No se pudieron detectar tecnologías específicas</p>
+            </ng-template>
+
+            <h4>Información del Servidor</h4>
+            <div class="server-info">
+              <p><strong>Servidor:</strong> {{ analysisResult.technical.serverInfo.server }}</p>
+              <p><strong>Estado HTTP:</strong> {{ analysisResult.basicInfo.statusCode }}</p>
+              <p><strong>Tamaño:</strong> {{ (analysisResult.basicInfo.contentLength / 1024).toFixed(2) }} KB</p>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Seguridad">
+        <div class="tab-content">
+          <div class="security-section">
+            <h4>Estado de Seguridad</h4>
+            <div class="security-status">
+              <mat-icon [style.color]="analysisResult.technical.security.ssl ? '#4caf50' : '#f44336'">
+                {{ analysisResult.technical.security.ssl ? 'lock' : 'lock_open' }}
+              </mat-icon>
+              <span>{{ analysisResult.technical.security.ssl ? 'Conexión HTTPS segura' : 'Conexión HTTP insegura' }}</span>
+            </div>
+
+            <h4>Headers de Seguridad</h4>
+            <div class="security-headers">
+              <div *ngFor="let header of objectKeys(analysisResult.technical.security.securityHeaders)"
+                   class="header-item">
+                <strong>{{ header }}:</strong> {{ analysisResult.technical.security.securityHeaders[header] }}
+              </div>
+              <p *ngIf="objectKeys(analysisResult.technical.security.securityHeaders).length === 0">
+                No se encontraron headers de seguridad específicos
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+</div>

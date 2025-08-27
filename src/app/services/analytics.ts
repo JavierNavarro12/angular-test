@@ -60,27 +60,27 @@ export class Analytics {
     return [
       {
         label: 'Usuarios Activos',
-        value: Math.floor(Math.random() * 1000) + 500,
-        change: (Math.random() - 0.5) * 20,
-        trend: Math.random() > 0.5 ? 'up' : 'down'
+        value: Math.floor(Math.random() * 1500) + 800,
+        change: (Math.random() - 0.3) * 15,
+        trend: Math.random() > 0.4 ? 'up' : Math.random() > 0.7 ? 'down' : 'stable'
       },
       {
         label: 'Páginas Vistas',
-        value: Math.floor(Math.random() * 5000) + 2000,
-        change: (Math.random() - 0.5) * 15,
-        trend: Math.random() > 0.6 ? 'up' : 'stable'
+        value: Math.floor(Math.random() * 8000) + 3000,
+        change: (Math.random() - 0.4) * 12,
+        trend: Math.random() > 0.5 ? 'up' : Math.random() > 0.8 ? 'down' : 'stable'
       },
       {
         label: 'Tasa de Conversión',
-        value: Math.floor(Math.random() * 10) + 2,
-        change: (Math.random() - 0.5) * 5,
-        trend: Math.random() > 0.4 ? 'up' : 'down'
+        value: Math.floor(Math.random() * 8) + 3,
+        change: (Math.random() - 0.5) * 8,
+        trend: Math.random() > 0.45 ? 'up' : Math.random() > 0.75 ? 'down' : 'stable'
       },
       {
         label: 'Revenue',
-        value: Math.floor(Math.random() * 50000) + 10000,
-        change: (Math.random() - 0.5) * 25,
-        trend: Math.random() > 0.5 ? 'up' : 'down'
+        value: Math.floor(Math.random() * 75000) + 15000,
+        change: (Math.random() - 0.35) * 20,
+        trend: Math.random() > 0.55 ? 'up' : Math.random() > 0.85 ? 'down' : 'stable'
       }
     ];
   }

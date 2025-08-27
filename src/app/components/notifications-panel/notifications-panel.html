@@ -1,0 +1,70 @@
+<!-- Professional Notifications Panel -->
+<div class="notifications-panel" [style.max-height]="maxHeight">
+  <!-- Header -->
+  <div class="panel-header">
+    <div class="header-left">
+      <mat-icon class="header-icon">notifications</mat-icon>
+      <span class="header-title">Notificaciones</span>
+      <span class="unread-badge" *ngIf="unreadCount > 0" [matBadge]="unreadCount" matBadgeColor="warn"></span>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button matTooltip="Marcar todas como leídas" (click)="onMarkAllRead()" *ngIf="unreadCount > 0">
+        <mat-icon>done_all</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Cerrar panel" (click)="onClosePanel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Notifications List -->
+  <div class="notifications-list">
+    <div class="notification-item"
+         *ngFor="let notification of notifications"
+         [class.unread]="!notification.read"
+         [class.read]="notification.read">
+
+      <!-- Notification Icon -->
+      <div class="notification-icon" [style.color]="getTypeColor(notification.type)">
+        <mat-icon>{{ getTypeIcon(notification.type) }}</mat-icon>
+      </div>
+
+      <!-- Notification Content -->
+      <div class="notification-content" (click)="markAsRead(notification.id)">
+        <div class="notification-header">
+          <span class="notification-title">{{ notification.title }}</span>
+          <span class="notification-time">{{ formatTime(notification.timestamp) }}</span>
+        </div>
+        <div class="notification-message">{{ notification.message }}</div>
+
+        <!-- Action Button -->
+        <div class="notification-actions" *ngIf="notification.action">
+          <button mat-stroked-button
+                  color="primary"
+                  size="small"
+                  (click)="executeAction(notification)">
+            {{ notification.action.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Mark as Read Button -->
+      <button mat-icon-button
+              class="mark-read-btn"
+              matTooltip="Marcar como leída"
+              (click)="markAsRead(notification.id)"
+              *ngIf="!notification.read">
+        <mat-icon>radio_button_unchecked</mat-icon>
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="notifications.length === 0">
+      <mat-icon class="empty-icon">notifications_off</mat-icon>
+      <h3>No hay notificaciones</h3>
+      <p>Estás al día con todas tus notificaciones</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<!-- Professional Settings Panel -->
+<div class="settings-panel" [style.max-height]="maxHeight">
+  <!-- Header -->
+  <div class="panel-header">
+    <div class="header-left">
+      <mat-icon class="header-icon">settings</mat-icon>
+      <span class="header-title">Configuración</span>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button matTooltip="Restablecer valores predeterminados" (click)="resetToDefaults()">
+        <mat-icon>restore</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Cerrar panel" (click)="onClosePanel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Settings Content -->
+  <div class="settings-content">
+    <!-- Appearance Section -->
+    <div class="settings-section">
+      <div class="section-header">
+        <mat-icon>palette</mat-icon>
+        <h3>Apariencia</h3>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-label">Tema</span>
+          <span class="setting-description">Cambia la apariencia de la aplicación</span>
+        </div>
+        <mat-form-field appearance="outline" class="setting-control">
+          <mat-select [(ngModel)]="settings.theme" (selectionChange)="onSettingChange()">
+            <mat-option value="light">Claro</mat-option>
+            <mat-option value="dark">Oscuro</mat-option>
+            <mat-option value="auto">Automático</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-label">Idioma</span>
+          <span class="setting-description">Selecciona el idioma de la interfaz</span>
+        </div>
+        <mat-form-field appearance="outline" class="setting-control">
+          <mat-select [(ngModel)]="settings.language" (selectionChange)="onSettingChange()">
+            <mat-option *ngFor="let lang of languages" [value]="lang.value">
+              {{ lang.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-label">Modo Compacto</span>
+          <span class="setting-description">Reduce el espaciado para más contenido</span>
+        </div>
+        <mat-slide-toggle
+          [(ngModel)]="settings.compactMode"
+          (change)="onSettingChange()"
+          class="setting-control">
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Notifications Section -->
+    <div class="settings-section">
+      <div class="section-header">
+        <mat-icon>notifications</mat-icon>
+        <h3>Notificaciones</h3>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-label">Habilitar Notificaciones</span>
+          <span class="setting-description">Recibe alertas del sistema</span>
+        </div>
+        <mat-slide-toggle
+          [(ngModel)]="settings.notifications"
+          (change)="onSettingChange()"
+          class="setting-control">
+        </mat-slide-toggle>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-label">Sonido</span>
+          <span class="setting-description">Reproduce sonidos para notificaciones</span>
+        </div>
+        <mat-slide-toggle
+          [(ngModel)]="settings.soundEnabled"
+          (change)="onSettingChange()"
+          class="setting-control">
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Data Refresh Section -->
+    <div class="settings-section">
+      <div class="section-header">
+        <mat-icon>refresh</mat-icon>
+        <h3>Actualización de Datos</h3>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-label">Actualización Automática</span>
+          <span class="setting-description">Actualiza los datos automáticamente</span>
+        </div>
+        <mat-slide-toggle
+          [(ngModel)]="settings.autoRefresh"
+          (change)="onSettingChange()"
+          class="setting-control">
+        </mat-slide-toggle>
+      </div>
+
+      <div class="setting-item" *ngIf="settings.autoRefresh">
+        <div class="setting-info">
+          <span class="setting-label">Intervalo de Actualización</span>
+          <span class="setting-description">Frecuencia de actualización automática</span>
+        </div>
+        <mat-form-field appearance="outline" class="setting-control">
+          <mat-select [(ngModel)]="settings.refreshInterval" (selectionChange)="onSettingChange()">
+            <mat-option *ngFor="let interval of refreshIntervals" [value]="interval.value">
+              {{ interval.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

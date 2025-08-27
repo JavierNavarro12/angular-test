@@ -1,0 +1,327 @@
+// Professional User Profile Panel Styles
+
+.user-profile-panel {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  max-width: 500px;
+}
+
+// Panel Header
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .header-icon {
+      color: #667eea;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 8px;
+
+    button {
+      color: #6b7280;
+
+      &:hover {
+        color: #374151;
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+}
+
+// User Info Section
+.user-info-section {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .user-avatar {
+    .avatar-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .user-details {
+    flex: 1;
+
+    .user-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0 0 8px 0;
+    }
+
+    .user-email {
+      font-size: 14px;
+      color: #6b7280;
+      margin: 0 0 12px 0;
+    }
+
+    .role-chip {
+      ::ng-deep .mat-mdc-chip {
+        background-color: inherit !important;
+        color: white !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// Stats Section
+.stats-section {
+  padding: 24px;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+    }
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(102, 126, 234, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(102, 126, 234, 0.08);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+      }
+
+      mat-icon {
+        color: #667eea;
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+
+      .stat-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .stat-value {
+          font-size: 20px;
+          font-weight: 700;
+          color: #2c3e50;
+        }
+
+        .stat-label {
+          font-size: 12px;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+}
+
+// Account Info Section
+.account-info-section,
+.preferences-section {
+  padding: 24px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 16px 0;
+  }
+
+  .account-details,
+  .preferences-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .detail-item,
+    .preference-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+
+      mat-icon {
+        color: #667eea;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      .detail-content,
+      span {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .detail-label {
+          font-size: 12px;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+          font-size: 14px;
+          color: #2c3e50;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+// Actions Section
+.actions-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .action-button,
+  .logout-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-start;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .logout-button {
+    margin-top: 12px;
+  }
+}
+
+// Scrollbar
+.user-profile-panel {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+}
+
+// Responsive Design
+@media (max-width: 480px) {
+  .user-profile-panel {
+    min-width: 350px;
+    max-width: 400px;
+  }
+
+  .user-info-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+
+    .user-avatar .avatar-circle {
+      width: 70px;
+      height: 70px;
+      font-size: 20px;
+    }
+
+    .user-details .user-name {
+      font-size: 20px;
+    }
+  }
+
+  .stats-section .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-section {
+    .action-button,
+    .logout-button {
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+  }
+}

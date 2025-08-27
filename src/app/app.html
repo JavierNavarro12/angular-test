@@ -1,31 +1,209 @@
-<!-- Dashboard de Analytics en Tiempo Real -->
+<!-- Professional Analytics Dashboard -->
 <mat-toolbar color="primary" class="dashboard-toolbar">
   <mat-toolbar-row>
-    <span class="dashboard-title">📊 Dashboard de Analytics en Tiempo Real</span>
+    <div class="toolbar-left">
+      <mat-icon class="dashboard-logo">analytics</mat-icon>
+      <span class="dashboard-title">Analytics Pro</span>
+      <span class="status-indicator online live-indicator"></span>
+      <span class="status-text">Sistema Online</span>
+    </div>
     <span class="spacer"></span>
-    <button mat-icon-button>
-      <mat-icon>notifications</mat-icon>
-    </button>
-    <button mat-icon-button>
-      <mat-icon>settings</mat-icon>
-    </button>
+    <div class="toolbar-right">
+      <button mat-icon-button matTooltip="Notificaciones" class="notification-btn" (click)="toggleNotifications()" [class.active]="showNotifications">
+        <mat-icon>notifications_none</mat-icon>
+        <span class="notification-badge" *ngIf="getUnreadCount() > 0">{{ getUnreadCount() }}</span>
+      </button>
+      <button mat-icon-button matTooltip="Configuración" (click)="openSettings()" [class.button-clicked]="buttonClicked">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Usuario" (click)="openUserProfile()" [class.button-clicked]="buttonClicked">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="dashboard-container">
-  <mat-grid-list cols="4" rowHeight="200px" gutterSize="16px">
-    @for (metric of metrics; track metric.label) {
-      <mat-grid-tile>
-        <app-metrics-card [metric]="metric"></app-metrics-card>
-      </mat-grid-tile>
-    }
-  </mat-grid-list>
+  <!-- Welcome Section -->
+  <div class="welcome-section fade-in-up">
+    <h1 class="welcome-title">Dashboard de Analytics en Tiempo Real</h1>
+    <p class="welcome-subtitle">Monitorea el rendimiento de tu plataforma con métricas actualizadas cada 3 segundos</p>
+    <div class="last-update">
+      <mat-icon>schedule</mat-icon>
+      Última actualización: {{ currentTime | date:'HH:mm:ss' }}
+    </div>
+  </div>
 
-  <!-- Espacio para gráficos futuros -->
-  <div class="charts-section">
-    <h2>Gráficos en Tiempo Real</h2>
-    <p>Próximamente: Gráficos de tendencias, mapas de calor y más...</p>
+  <!-- Metrics Section -->
+  <div class="metrics-section fade-in-up" *ngIf="metrics && metrics.length > 0; else noMetrics">
+    <!-- Metrics Container (Tarjeta Grande) -->
+    <div class="metrics-container">
+      <!-- Título dentro de la tarjeta -->
+      <div class="metrics-header">
+        <h3 class="metrics-title">
+          <mat-icon>analytics</mat-icon>
+          Métricas en Tiempo Real
+        </h3>
+        <div class="metrics-actions">
+          <button mat-stroked-button color="primary" size="small">
+            <mat-icon>refresh</mat-icon>
+            Actualizar
+          </button>
+          <button mat-stroked-button color="accent" size="small">
+            <mat-icon>download</mat-icon>
+            Exportar
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid de métricas dentro de la tarjeta -->
+      <div class="metrics-grid-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; width: 100%;">
+        @for (metric of metrics; track metric.label; let i = $index) {
+          <app-metrics-card [metric]="metric"></app-metrics-card>
+        }
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noMetrics>
+    <div style="text-align: center; padding: 40px; color: #666;">
+      <mat-icon style="font-size: 48px; width: 48px; height: 48px;">info</mat-icon>
+      <p style="margin-top: 16px;">No hay métricas disponibles</p>
+      <p style="font-size: 12px; color: #999;">Métricas: {{ metrics ? metrics.length : 0 }}</p>
+    </div>
+  </ng-template>
+
+
+
+  <!-- Charts and Additional Sections -->
+  <div class="charts-section fade-in-up">
+    <div class="section-header">
+      <h2 class="section-title">
+        <mat-icon>show_chart</mat-icon>
+        Gráficos en Tiempo Real
+      </h2>
+      <div class="section-actions">
+        <button mat-stroked-button color="primary">
+          <mat-icon>refresh</mat-icon>
+          Actualizar
+        </button>
+        <button mat-stroked-button color="accent">
+          <mat-icon>download</mat-icon>
+          Exportar
+        </button>
+      </div>
+    </div>
+    <div class="charts-placeholder">
+      <div class="chart-card card-depth-2">
+        <mat-icon class="chart-icon">bar_chart</mat-icon>
+        <h3>Tendencias de Tráfico</h3>
+        <p>Visualización en tiempo real del tráfico de usuarios con datos históricos de las últimas 24 horas</p>
+        <div class="chart-preview">
+          <div class="mini-sparkline">
+            <div class="spark-bar" style="height: 40%"></div>
+            <div class="spark-bar" style="height: 65%"></div>
+            <div class="spark-bar" style="height: 45%"></div>
+            <div class="spark-bar" style="height: 80%"></div>
+            <div class="spark-bar" style="height: 55%"></div>
+          </div>
+        </div>
+        <div class="coming-soon">Próximamente</div>
+      </div>
+      <div class="chart-card card-depth-2">
+        <mat-icon class="chart-icon">pie_chart</mat-icon>
+        <h3>Distribución Geográfica</h3>
+        <p>Análisis detallado de la distribución de usuarios por región y país</p>
+        <div class="chart-preview">
+          <div class="mini-pie">
+            <div class="pie-segment" style="background: #667eea; flex: 0.4"></div>
+            <div class="pie-segment" style="background: #764ba2; flex: 0.3"></div>
+            <div class="pie-segment" style="background: #f093fb; flex: 0.2"></div>
+            <div class="pie-segment" style="background: #f5576c; flex: 0.1"></div>
+          </div>
+        </div>
+        <div class="coming-soon">Próximamente</div>
+      </div>
+      <div class="chart-card card-depth-2">
+        <mat-icon class="chart-icon">timeline</mat-icon>
+        <h3>Rendimiento del Sistema</h3>
+        <p>Métricas avanzadas de uptime, latencia y rendimiento del servidor</p>
+        <div class="chart-preview">
+          <div class="performance-meter">
+            <div class="meter-fill" style="width: 87%"></div>
+            <span class="meter-label">87% Uptime</span>
+          </div>
+        </div>
+        <div class="coming-soon">Próximamente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-section fade-in-up">
+    <h3>Acciones Rápidas</h3>
+    <div class="quick-actions-grid">
+      <button mat-stroked-button class="quick-action" (click)="exportReport()" [class.button-clicked]="buttonClicked">
+        <mat-icon>file_download</mat-icon>
+        <span>Exportar Reporte</span>
+      </button>
+      <button mat-stroked-button class="quick-action" (click)="shareDashboard()" [class.button-clicked]="buttonClicked">
+        <mat-icon>share</mat-icon>
+        <span>Compartir Dashboard</span>
+      </button>
+      <button mat-stroked-button class="quick-action" (click)="configureAlerts()" [class.button-clicked]="buttonClicked">
+        <mat-icon>alarm</mat-icon>
+        <span>Configurar Alertas</span>
+      </button>
+      <button mat-stroked-button class="quick-action" (click)="viewHistory()" [class.button-clicked]="buttonClicked">
+        <mat-icon>history</mat-icon>
+        <span>Historial de Datos</span>
+      </button>
+    </div>
   </div>
 </div>
+
+<!-- Notifications Panel -->
+<div class="notifications-overlay" *ngIf="showNotifications" (click)="onCloseNotifications()">
+  <app-notifications-panel
+    [notifications]="notifications"
+    (notificationRead)="onNotificationRead($event)"
+    (markAllRead)="onMarkAllRead()"
+    (closePanel)="onCloseNotifications()"
+    class="notifications-panel-position">
+  </app-notifications-panel>
+</div>
+
+<!-- Settings Panel -->
+<div class="settings-overlay" *ngIf="showSettings" (click)="onCloseSettings()">
+  <app-settings-panel
+    (settingsChanged)="onSettingsChanged($event)"
+    (closePanel)="onCloseSettings()"
+    class="settings-panel-position">
+  </app-settings-panel>
+</div>
+
+<!-- User Profile Panel -->
+<div class="user-profile-overlay" *ngIf="showUserProfile" (click)="onCloseUserProfile()">
+  <app-user-profile-panel
+    (logout)="onLogout()"
+    (editProfile)="onEditProfile()"
+    (closePanel)="onCloseUserProfile()"
+    class="user-profile-panel-position">
+  </app-user-profile-panel>
+</div>
+
+<!-- Quick Actions Panel -->
+<div class="quick-actions-overlay" *ngIf="showQuickActions" (click)="onCloseQuickActions()">
+  <app-quick-actions-panel
+    (actionExecuted)="onQuickActionExecuted($event)"
+    (closePanel)="onCloseQuickActions()"
+    class="quick-actions-panel-position">
+  </app-quick-actions-panel>
+</div>
+
+<!-- Floating Action Button -->
+<button mat-fab class="fab-button" matTooltip="Acciones rápidas" matTooltipPosition="left" (click)="openQuickActions()" [class.button-clicked]="buttonClicked">
+  <mat-icon>add</mat-icon>
+</button>
 
 <router-outlet />
