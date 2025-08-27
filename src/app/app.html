@@ -1,0 +1,31 @@
+<!-- Dashboard de Analytics en Tiempo Real -->
+<mat-toolbar color="primary" class="dashboard-toolbar">
+  <mat-toolbar-row>
+    <span class="dashboard-title">📊 Dashboard de Analytics en Tiempo Real</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>settings</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dashboard-container">
+  <mat-grid-list cols="4" rowHeight="200px" gutterSize="16px">
+    @for (metric of metrics; track metric.label) {
+      <mat-grid-tile>
+        <app-metrics-card [metric]="metric"></app-metrics-card>
+      </mat-grid-tile>
+    }
+  </mat-grid-list>
+
+  <!-- Espacio para gráficos futuros -->
+  <div class="charts-section">
+    <h2>Gráficos en Tiempo Real</h2>
+    <p>Próximamente: Gráficos de tendencias, mapas de calor y más...</p>
+  </div>
+</div>
+
+<router-outlet />

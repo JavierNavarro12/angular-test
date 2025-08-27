@@ -1,0 +1,16 @@
+<mat-card class="metric-card">
+  <mat-card-content>
+    <div class="metric-header">
+      <span class="metric-label">{{ metric.label }}</span>
+      <mat-icon [class]="getTrendColor()">{{ getTrendIcon() }}</mat-icon>
+    </div>
+
+    <div class="metric-value">
+      {{ formatValue(metric.value, metric.label) }}
+    </div>
+
+    <div class="metric-change" [class]="getTrendColor()">
+      {{ formatChange(metric.change) }} vs ayer
+    </div>
+  </mat-card-content>
+</mat-card>
