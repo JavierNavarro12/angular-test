@@ -6,22 +6,22 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
-// Custom color palette for a professional dashboard
+// Metalized dark color palette
 $primary-palette: (
-  50: #e3f2fd,
-  100: #bbdefb,
-  200: #90caf9,
-  300: #64b5f6,
-  400: #42a5f5,
-  500: #2196f3,
-  600: #1e88e5,
-  700: #1976d2,
-  800: #1565c0,
-  900: #0d47a1,
-  A100: #82b1ff,
-  A200: #448aff,
-  A400: #2979ff,
-  A700: #2962ff,
+  50: #f8fafc,
+  100: #f1f5f9,
+  200: #e2e8f0,
+  300: #cbd5e1,
+  400: #94a3b8,
+  500: #64748b,
+  600: #475569,
+  700: #334155,
+  800: #1e293b,
+  900: #0f172a,
+  A100: #e2e8f0,
+  A200: #94a3b8,
+  A400: #475569,
+  A700: #334155,
   contrast: (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
@@ -34,41 +34,41 @@ $primary-palette: (
     800: white,
     900: white,
     A100: rgba(black, 0.87),
-    A200: white,
+    A200: rgba(black, 0.87),
     A400: white,
     A700: white,
   )
 );
 
 $accent-palette: (
-  50: #fff3e0,
-  100: #ffe0b2,
-  200: #ffcc02,
-  300: #ffb74d,
-  400: #ffa726,
-  500: #ff9800,
-  600: #fb8c00,
-  700: #f57c00,
-  800: #ef6c00,
-  900: #e65100,
-  A100: #ffd180,
-  A200: #ffab40,
-  A400: #ff9100,
-  A700: #ff6d00,
+  50: #f8fafc,
+  100: #f1f5f9,
+  200: #e2e8f0,
+  300: #cbd5e1,
+  400: #94a3b8,
+  500: #64748b,
+  600: #475569,
+  700: #334155,
+  800: #1e293b,
+  900: #0f172a,
+  A100: #e2e8f0,
+  A200: #94a3b8,
+  A400: #475569,
+  A700: #334155,
   contrast: (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
     300: rgba(black, 0.87),
     400: rgba(black, 0.87),
-    500: rgba(black, 0.87),
-    600: rgba(black, 0.87),
+    500: white,
+    600: white,
     700: white,
     800: white,
     900: white,
     A100: rgba(black, 0.87),
     A200: rgba(black, 0.87),
-    A400: rgba(black, 0.87),
+    A400: white,
     A700: white,
   )
 );
@@ -78,27 +78,34 @@ html {
     color: (
       primary: $primary-palette,
       accent: $accent-palette,
+      theme-type: dark,
     ),
     typography: (
-      font-family: 'Roboto, "Helvetica Neue", sans-serif',
+      font-family: 'Inter, Roboto, "Helvetica Neue", sans-serif',
     ),
     density: -1,
   ));
 }
 
 body {
-  color-scheme: light;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color-scheme: dark;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(200, 200, 200, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, #0c0d0d 0%, #1a1a1a 25%, #2a2a2a 50%, #1f1f1f 75%, #0f0f0f 100%);
   background-attachment: fixed;
-  color: var(--mat-sys-on-surface);
+  color: #ffffff;
   font: var(--mat-sys-body-medium);
   margin: 0;
   min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  letter-spacing: -0.01em;
 }
 
 html, body {
   height: 100%;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  scroll-behavior: smooth;
 }
 
 // Global improvements
@@ -233,6 +240,27 @@ html, body {
   }
 }
 
+@keyframes highlightPulse {
+  0% {
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 20px 40px rgba(34, 197, 94, 0.15),
+      0 0 0 3px rgba(34, 197, 94, 0.4),
+      inset 0 1px 0 rgba(34, 197, 94, 0.3);
+  }
+  100% {
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+}
+
 // Staggered animations for metric cards
 .metric-tile:nth-child(1) {
   animation: slideInLeft 0.8s ease-out;
@@ -250,16 +278,36 @@ html, body {
   animation: bounceIn 0.8s ease-out 0.6s both;
 }
 
-// Glass morphism effects
+// Glass morphism effects - Professional version
 .glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-// Gradient text effects
+.glass-effect-dark {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+// Gradient text effects - Professional gradients
 .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+.gradient-text-success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -414,14 +462,40 @@ html, body {
   }
 }
 
-// Responsive design
-@media (max-width: 768px) {
+// Responsive design - Complete responsive system
+@media (max-width: 1200px) {
+  // Large tablets and small desktops
+  .dashboard-container {
+    padding: 20px;
+    max-width: 1100px;
+  }
+
+  .charts-section {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  // Medium tablets
   .dashboard-container {
     padding: 16px;
+    max-width: 900px;
   }
 
   .charts-section {
     padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  // Small tablets and large phones
+  .dashboard-container {
+    padding: 12px;
+    max-width: 700px;
+  }
+
+  .charts-section {
+    padding: 12px;
   }
 
   .fab-button {
@@ -429,5 +503,83 @@ html, body {
     right: 16px;
     width: 48px;
     height: 48px;
+  }
+
+  // Stack metric tiles vertically on small screens
+  .metric-tile {
+    width: 100% !important;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  // Mobile phones
+  .dashboard-container {
+    padding: 8px;
+    max-width: 100%;
+  }
+
+  .charts-section {
+    padding: 8px;
+  }
+
+  .fab-button {
+    bottom: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+  }
+
+  // Improve readability on very small screens
+  body {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  // Very small mobile phones
+  .dashboard-container {
+    padding: 4px;
+  }
+
+  .charts-section {
+    padding: 4px;
+  }
+
+  .fab-button {
+    bottom: 8px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
+  }
+
+  // Ensure minimum touch targets
+  button, .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+// Print styles
+@media print {
+  .fab-button {
+    display: none !important;
+  }
+
+  .dashboard-container {
+    box-shadow: none !important;
   }
 }

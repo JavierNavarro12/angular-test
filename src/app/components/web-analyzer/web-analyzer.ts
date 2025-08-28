@@ -42,40 +42,6 @@ export class WebAnalyzer implements OnInit {
   analysisResult: WebAnalysisResult | null = null;
   error: string | null = null;
 
-  // Características que ofrecemos
-  features = [
-    {
-      icon: 'speed',
-      title: 'Análisis de Rendimiento',
-      description: 'Mide la velocidad de carga, Core Web Vitals y puntuación de PageSpeed'
-    },
-    {
-      icon: 'search',
-      title: 'Análisis SEO',
-      description: 'Meta tags, headings, estructura de contenido y optimización para motores de búsqueda'
-    },
-    {
-      icon: 'security',
-      title: 'Seguridad Web',
-      description: 'Certificado SSL, headers de seguridad y vulnerabilidades detectadas'
-    },
-    {
-      icon: 'phone_android',
-      title: 'Compatibilidad Móvil',
-      description: 'Viewport, responsive design y experiencia móvil'
-    },
-    {
-      icon: 'code',
-      title: 'Tecnologías Detectadas',
-      description: 'Frameworks, librerías y servidor utilizados en el sitio'
-    },
-    {
-      icon: 'accessibility',
-      title: 'Accesibilidad',
-      description: 'Cumplimiento de estándares de accesibilidad web'
-    }
-  ];
-
   constructor(private webAnalyzerService: WebAnalyzerService) {}
 
   ngOnInit(): void {
@@ -98,6 +64,11 @@ export class WebAnalyzer implements OnInit {
         this.analysisResult = result;
         this.isAnalyzing = false;
         console.log('Análisis completado:', result);
+
+        // 🔥 Scroll automático a los resultados después de 300ms
+        setTimeout(() => {
+          this.scrollToResults();
+        }, 300);
       },
       error: (error) => {
         this.error = error.message || 'Error al analizar la página web';
@@ -111,6 +82,26 @@ export class WebAnalyzer implements OnInit {
     this.analysisResult = null;
     this.error = null;
     this.url = '';
+  }
+
+  // 🔥 Método para hacer scroll automático a los resultados
+  private scrollToResults(): void {
+    // Buscar la sección de resultados
+    const resultsSection = document.querySelector('.results-section');
+    if (resultsSection) {
+      // Scroll suave hasta los resultados
+      resultsSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+
+      // Agregar una animación de highlight para llamar la atención
+      resultsSection.classList.add('highlight-results');
+      setTimeout(() => {
+        resultsSection.classList.remove('highlight-results');
+      }, 2000);
+    }
   }
 
   // Métodos helper para el template
@@ -162,15 +153,7 @@ export class WebAnalyzer implements OnInit {
     return 'insecure';
   }
 
-  getSecurityStatusText(): string {
-    const status = this.getSecurityStatus();
-    switch (status) {
-      case 'secure': return 'Seguro';
-      case 'warning': return 'Requiere Atención';
-      case 'insecure': return 'Inseguro';
-      default: return 'Desconocido';
-    }
-  }
+
 
   getSecurityStatusColor(): string {
     const status = this.getSecurityStatus();
@@ -207,6 +190,12 @@ export class WebAnalyzer implements OnInit {
 
   getPerformanceScore(): number {
     return this.analysisResult?.performance.lighthouse.performance || 0;
+  }
+
+  // Método para obtener el estado de seguridad legible
+  getSecurityStatusText(): string {
+    if (!this.analysisResult) return 'SIN DATOS';
+    return this.analysisResult.technical.security.ssl ? 'SEGURA' : 'INSEGURA';
   }
 
   // Método helper para object keys

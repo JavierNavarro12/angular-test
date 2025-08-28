@@ -3,34 +3,68 @@
 
   <!-- Header Section -->
   <div class="analyzer-header">
-    <div class="header-content">
-      <mat-icon class="header-icon">analytics</mat-icon>
-      <div class="header-text">
-        <h1 class="main-title">WebAnalyzer Pro</h1>
-        <p class="subtitle">Herramienta completa para análisis de páginas web</p>
-      </div>
-    </div>
+    <mat-icon class="header-icon">analytics</mat-icon>
+    <h1 class="main-title">WebAnalyzer Pro</h1>
   </div>
 
-  <!-- Summary Section -->
-  <div class="summary-section">
-    <div class="summary-card">
-      <div class="summary-header">
-        <mat-icon class="summary-icon">info</mat-icon>
-        <h2>¿Qué hace esta herramienta?</h2>
+  <!-- Feature Cards - Lo que hace la herramienta -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <div class="outer">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="ray"></div>
+          <div class="text">SPEED</div>
+          <div>Análisis de<br>Rendimiento</div>
+          <div class="line topl"></div>
+          <div class="line leftl"></div>
+          <div class="line bottoml"></div>
+          <div class="line rightl"></div>
+        </div>
       </div>
-      <p class="summary-description">
-        Pon el enlace de tu página web y te diremos todo lo que necesitas saber sobre su rendimiento,
-        optimización SEO, seguridad, accesibilidad y mucho más. Obtén un análisis completo en segundos.
-      </p>
+    </div>
 
-      <div class="features-grid">
-        <div *ngFor="let feature of features" class="feature-item">
-          <mat-icon class="feature-icon">{{ feature.icon }}</mat-icon>
-          <div class="feature-content">
-            <h4>{{ feature.title }}</h4>
-            <p>{{ feature.description }}</p>
-          </div>
+    <div class="stat-card">
+      <div class="outer">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="ray"></div>
+          <div class="text">SEO</div>
+          <div>Optimización<br>para Buscadores</div>
+          <div class="line topl"></div>
+          <div class="line leftl"></div>
+          <div class="line bottoml"></div>
+          <div class="line rightl"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="outer">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="ray"></div>
+          <div class="text">SECURITY</div>
+          <div>Certificado<br>SSL & Seguridad</div>
+          <div class="line topl"></div>
+          <div class="line leftl"></div>
+          <div class="line bottoml"></div>
+          <div class="line rightl"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="outer">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="ray"></div>
+          <div class="text">MOBILE</div>
+          <div>Compatibilidad<br>Móvil</div>
+          <div class="line topl"></div>
+          <div class="line leftl"></div>
+          <div class="line bottoml"></div>
+          <div class="line rightl"></div>
         </div>
       </div>
     </div>
@@ -38,51 +72,44 @@
 
   <!-- URL Input Section -->
   <div class="input-section">
-    <div class="input-card">
-      <div class="input-header">
-        <mat-icon>link</mat-icon>
-        <h3>Ingresa la URL de tu sitio web</h3>
-      </div>
+    <div class="grid"></div>
+    <div id="poda">
+      <div class="glow"></div>
+      <div class="darkBorderBg"></div>
+      <div class="darkBorderBg"></div>
+      <div class="darkBorderBg"></div>
+      <div class="white"></div>
+      <div class="border"></div>
 
-      <div class="url-input-group">
-        <mat-form-field appearance="outline" class="url-field">
-          <mat-label>URL del sitio web</mat-label>
-          <input matInput
-                 [(ngModel)]="url"
-                 placeholder="https://www.ejemplo.com"
-                 (keyup.enter)="analyzeWebsite()">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-
-        <button mat-raised-button
-                color="primary"
-                class="analyze-button"
-                (click)="analyzeWebsite()"
-                [disabled]="!url.trim() || isAnalyzing">
-          <mat-icon *ngIf="!isAnalyzing">analytics</mat-icon>
-          <mat-spinner *ngIf="isAnalyzing" diameter="20" color="accent"></mat-spinner>
-          <span>{{ isAnalyzing ? 'Analizando...' : 'Analizar Sitio' }}</span>
-        </button>
+      <div id="main">
+        <input placeholder="ingresa la url de tu web" type="text" name="text" class="input"
+               [(ngModel)]="url"
+               (keyup.enter)="analyzeWebsite()">
+        <div id="input-mask"></div>
+        <div id="pink-mask"></div>
+        <div class="filterBorder"></div>
+        <div id="filter-icon">
+          <button class="analyze-button"
+                  (click)="analyzeWebsite()"
+                  [disabled]="!url.trim() || isAnalyzing">
+            <mat-icon *ngIf="!isAnalyzing">analytics</mat-icon>
+            <mat-spinner *ngIf="isAnalyzing" diameter="20" color="accent"></mat-spinner>
+          </button>
+        </div>
+        <div id="search-icon">
+          <mat-icon>link</mat-icon>
+        </div>
       </div>
+    </div>
 
-      <!-- Error Message -->
-      <div *ngIf="error" class="error-message">
-        <mat-icon>error</mat-icon>
-        <span>{{ error }}</span>
-      </div>
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
+      <mat-icon>error</mat-icon>
+      <span>{{ error }}</span>
     </div>
   </div>
 
-  <!-- Loading State -->
-  <div *ngIf="isAnalyzing && !analysisResult" class="loading-section">
-    <div class="loading-content">
-      <mat-spinner diameter="50" color="primary"></mat-spinner>
-      <h3>Analizando tu sitio web...</h3>
-      <p>Estamos recopilando información detallada sobre el rendimiento, SEO y seguridad de tu página.</p>
-    </div>
-  </div>
-
-  <!-- Results Section -->
+  <!-- Results Section (moved right after input) -->
   <div *ngIf="analysisResult" class="results-section">
     <div class="results-header">
       <mat-icon class="results-icon">assessment</mat-icon>
